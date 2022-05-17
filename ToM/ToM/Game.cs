@@ -4,66 +4,133 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Three_or_More_Assignment
+
+public class Game
 {
-    class Game
+    private IInput Input;
+    private IOutput Output;
+    private Player[] PlayerList;
+    private int TargetScore;
+    protected Game(IInput Input, IOutput Output)
     {
-        private IInput Input;
-        private IOutput Output;
-        private Player[] PlayerList;
-        protected Game(IInput Input, IOutput Output, int NumPlayers, int TargetScore)
+        Output.DisplayIntro();
+        this.Input = Input;
+        this.Output = Output;
+        this.TargetScore = Input.TotalScore();
+        int NumPlayers = Input.TotalPlayers();
+        PlayerList = new Player[NumPlayers];
+        for (int i = 0; i < NumPlayers; i++)
         {
-            this.Input = Input;
-            this.Output = Output;
-            PlayerList = new Player[NumPlayers];
-            for (int i = 0; i < NumPlayers; i++)
+            PlayerList[i] = new Player(5);
+        }
+    }
+
+    public void Run()
+    {
+        //Display Intro
+        //Take input for total players and target score
+        bool GameOver = false;
+        while (GameOver == false)
+        {
+            foreach (Player Player in PlayerList)
             {
-                PlayerList[i] = new Player(5);
+                //Roll
+                Input.DoRoll();
+                for (int i = 0; i < 5; i++)
+                {
+                    Player.RollDie(i);
+                }
+                int[] SortedDie = Player.SortDie();
+                Output.DisplayRoll(SortedDie);
+                int[] Matched = Player.SummariseRolls();
+                int[] MatchingDie = GetMostOccurring(Matched);
+                ChangeScore(MatchingDie, Player);
+                Output.NextPlayer();
+            }
+
+            GameOver = EndRound();
+        }
+        //Display EndGame
+        Output.EndGame(PlayerList);
+    }
+    private int[] GetMostOccurring(int[] Matched)
+    {
+        int TimesRecurring = 0;
+        for (int i = 0; i < Matched.Length; i++)
+        {
+            if (Matched[i] > TimesRecurring)
+            {
+                TimesRecurring = Matched[i];
             }
         }
-
-        public void Run()
+        int FaceofRecurring = (Array.IndexOf(Matched, TimesRecurring)) + 1;
+        int[] MatchingDie = new int[2];
+        MatchingDie[0] = TimesRecurring;
+        MatchingDie[1] = FaceofRecurring;
+        return MatchingDie;
+    }
+    public void ChangeScore(int[] MatchingDie, Player Player)
+    {
+        MatchingDie = DecideReroll(MatchingDie, Player);
+        int Score = Player.GetScore();
+        switch (MatchingDie[0])
         {
-            //Display Intro
+            case 3:
+                //add 3
+                Score = Score + 3;
+                Player.SetScore(Score);
+                break;
+            case 4:
+                //add 6
+                Score = Score + 6;
+                Player.SetScore(Score);
+                break;
+            case 5:
+                //add 12
+                Score = Score + 12;
+                Player.SetScore(Score);
+                break;
+            default:
+                //Scored Nothing
+                Console.WriteLine("You scored nothing");
+                break;
+        }
 
-            //Take input for total players and target score
-
-            bool GameOver = false;
-            while (GameOver == false)
+    }
+    public int[] DecideReroll(int[] MatchingDie, Player Player)
+    {
+        if (MatchingDie[0] == 2)
+        {
+            //reroll
+            Input.DoRoll();
+            for (int i = 0; i < 5; i++)
             {
-                foreach (Player Player in PlayerList)
+                Die Die = Player.GetDie(i);
+                int DieNumber = Die.GetValue();
+                if (DieNumber != MatchingDie[1])
                 {
-                    //Roll
-                    for (int i = 0; i <= 5; i++)
-                    {
-                        Player.RollDie(i);
-                    }
-                    int[] Matched = Player.SummariseRolls();
-                    int[] MatchingDie = GetMostOccurring(Matched);
-
-
+                    Player.RollDie(i);
                 }
             }
+            int[] SortedDie = Player.SortDie();
+            int[] Matched = Player.SummariseRolls();
+            MatchingDie = GetMostOccurring(Matched);
+            Output.DisplayRoll(SortedDie);
         }
-        private int[] GetMostOccurring(int[] Matched)
+        return MatchingDie;
+
+    }
+    public bool EndRound()
+    {
+        foreach(Player Player in PlayerList)
         {
-            int Biggest = 0;
-            for (int i = 0; i < Matched.Length; i++)
+            int Score = Player.GetScore();
+            if (Score >= TargetScore)
             {
-                if (Matched[i] > Biggest)
-                {
-                    Biggest = Matched[i];
-                }
+                return true;
             }
-            int Saved = (Array.IndexOf(Matched, Biggest)) + 1;
-            int[] MatchingDie = new int[2];
-            MatchingDie[0] = Biggest;
-            MatchingDie[1] = Saved;
-            return MatchingDie;
         }
-        private int ChangeScore(int[] MatchingDie)
-        {
-            //change the score for the players based on what they rolled
-        }
+        Output.SummariseRound(PlayerList);
+        return false;
     }
 }

@@ -1,0 +1,15 @@
+C:\Users\james\source\repos\ToM\ToM\ToM\bin\Debug\net6.0\ToM.exe
+C:\Users\james\source\repos\ToM\ToM\ToM\bin\Debug\net6.0\ToM.deps.json
+C:\Users\james\source\repos\ToM\ToM\ToM\bin\Debug\net6.0\ToM.runtimeconfig.json
+C:\Users\james\source\repos\ToM\ToM\ToM\bin\Debug\net6.0\ToM.dll
+C:\Users\james\source\repos\ToM\ToM\ToM\bin\Debug\net6.0\ToM.pdb
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.csproj.AssemblyReference.cache
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.AssemblyInfoInputs.cache
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.AssemblyInfo.cs
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.csproj.CoreCompileInputs.cache
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.dll
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\refint\ToM.dll
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.pdb
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ToM.genruntimeconfig.cache
+C:\Users\james\source\repos\ToM\ToM\ToM\obj\Debug\net6.0\ref\ToM.dll

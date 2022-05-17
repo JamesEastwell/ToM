@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
-class Program
+public class GameCLI : Game
 {
-    static void Main(string[] args)
+    public GameCLI(): base(new InputCLI(), new OutputCLI())
     {
-        Game Game = new GameCLI();
-        Game.Run();
+            
     }
 }
 
